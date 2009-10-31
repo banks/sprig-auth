@@ -1,7 +1,11 @@
-An Auth extension for the basic user model included with Sprig ORM for KO3.
+An extension of The [Kohana 3 Auth module](http://github.com/kohana/auth) for use with [Sprig](http://github.com/shadowhand/sprig) User models.
 
-Implemented as a separate module to avoid bloating or polluting Sprig core.
+This module must be added to the active modules array in your bootstrap BEFORE auth module as it overrides some classes.
 
-Adds random salt to password hash to protect against rainbow table attacks.
+### Incompatibilities with Auth ORM driver
 
-Uses kohana session to store authentication status.
+1.    There is i=one intentional difference from the ORM driver for Auth module, and that is that logged_in() (and by extension get_user()) will automatically call auto_login() if no user session is found. This functionality seems the most sensible to me. If this causes problems for you please raise it as an issue or just override Auth_Sprig and change it back.
+
+### Known Issues
+
+1.    Role checking doesn't work as expected when the user object is retrived from the session as Sprig uses Mysql Result objects. Need to investigate how to make this work correctly
