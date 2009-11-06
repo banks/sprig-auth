@@ -8,4 +8,5 @@ This module must be added to the active modules array in your bootstrap BEFORE a
 
 ### Known Issues
 
-1.    Role checking doesn't work as expected when the user object is retrived from the session as Sprig uses Mysql Result objects. Need to investigate how to make this work correctly
+1.    Role checking doesn't work as expected when the user object is retrived from the session as Sprig uses Mysql Result objects. Need to investigate how to make this work correctly.
+	(This relates to Sprig [issue 40](http://github.com/shadowhand/sprig/issues/#issue/40) and Kohana Database [issue 2297](http://dev.kohanaphp.com/issues/2297) and is temporarily fixable by [this branch](http://github.com/banks/sprig/tree/serializable) in my sprig fork. 
