@@ -71,6 +71,41 @@ class Model_Auth_User extends Sprig
 	}
 	
 	/**
+	 * Allow serialization of initialized object containing related objects as a Database_Result
+	 * 
+	 * @return array	list of properties to serialize
+	 */
+	public function __sleep()
+	{
+		foreach ($this->_related as $field => $object)
+		{
+			if ($object instanceof Database_Result)
+			{
+				if ($object instanceof Database_Result_Cached)
+				{
+					continue;
+				}
+				
+				// Convert result object to cached result to allow for serialization
+				// Currently no way to get the $_query property form the result to pass to the cached result
+				// @see http://dev.kohanaphp.com/issues/2297
+				
+				$this->_related[$field] = new Database_Result_Cached($object->as_array(), '', get_class(Sprig::factory($field->model)));			
+			}
+		}		
+		
+		// Return array of all properties to get them serialised
+		$props = array();
+		
+		foreach ($this as $prop => $val)
+		{
+			$props[] = $prop;
+		}
+		
+		return $props;
+	}
+	
+	/**
 	 * Validate callback wrapper for checking password match
 	 * @param Validate $array
 	 * @param string   $field
