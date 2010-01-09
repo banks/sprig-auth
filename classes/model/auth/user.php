@@ -77,7 +77,7 @@ class Model_Auth_User extends Sprig
 	 */
 	public function __sleep()
 	{
-		foreach ($this->_related as $field => $object)
+		foreach ($this->_related as $name => $object)
 		{
 			if ($object instanceof Database_Result)
 			{
@@ -86,11 +86,14 @@ class Model_Auth_User extends Sprig
 					continue;
 				}
 				
+				// Get model name
+				$model = $this->_fields[$name]->model;
+				
 				// Convert result object to cached result to allow for serialization
 				// Currently no way to get the $_query property form the result to pass to the cached result
 				// @see http://dev.kohanaphp.com/issues/2297
 				
-				$this->_related[$field] = new Database_Result_Cached($object->as_array(), '', get_class(Sprig::factory($field->model)));			
+				$this->_related[$name] = new Database_Result_Cached($object->as_array(), '', get_class(Sprig::factory($model)));			
 			}
 		}		
 		
