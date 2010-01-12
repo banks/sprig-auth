@@ -44,7 +44,7 @@ class Model_Auth_User_Token extends Sprig
 	{
 		parent::load($query, $limit);
 		
-		if ($limit === 1 AND $this->_loaded AND $this->expires < time())
+		if ($limit === 1 AND $this->loaded() AND $this->expires < time())
 		{
 			$this->delete();
 			$this->_loaded = FALSE;

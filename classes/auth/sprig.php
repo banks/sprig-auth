@@ -225,12 +225,18 @@ class Auth_Sprig extends Auth {
 		return parent::complete_login($user);
 	}
 	
+	/**
+	 * Convert a unique identifier string to a user object
+	 * 
+	 * @param mixed $user
+	 * @return Model_User
+	 */
 	protected function _get_object($user)
 	{
 		if ( ! is_object($user))
 		{
-			// Load the user
-			$user = Model_User::factory($user)->load();
+			// Load the user using special factory method
+			$user = Model_User::factory($user)->load();			
 		}
 		
 		return $user;
